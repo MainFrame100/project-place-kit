@@ -4,7 +4,7 @@
 
 ## Как начать — три фразы
 
-1. Склонируйте репозиторий: `git clone https://github.com/MainFrame100/project-place-kit <папка>` — или скажите Claude Code / Codex: «склонируй … в папку <папка>».
+1. Скажите Claude Code / Codex: «склонируй https://github.com/MainFrame100/project-place-kit в папку <папка>». Нет git — та же ссылка, кнопка Code → Download ZIP, распаковать; или прямой архив: https://github.com/MainFrame100/project-place-kit/archive/refs/heads/main.zip
 2. Откройте в папке Claude Code или Codex и скажите: **«Настрой по SETUP.md»**. Нейронка поставит окружение, попросит два ключа с my.telegram.org и покажет QR для входа в Telegram.
 3. Скажите: **«Заведи проект <название> и выгрузи чат <название чата>»** — выгрузится две недели; нужно больше — скажите «за 60 дней».
 

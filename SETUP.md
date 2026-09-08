@@ -7,10 +7,12 @@
 Нужны Python 3.10+ и git. Считай, что машина пустая: сначала проверь `python3 --version` (Windows: `py --version`) и `git --version`. Чего нет — ставь сам, человека зови только там, где помечено **Человек:**.
 
 - **macOS:** `xcode-select --install` — даст и git, и python3. **Человек:** нажать «Установить» в появившемся окне, ждать до 10 минут. Если есть Homebrew — быстрее: `brew install python git`.
-- **Windows:** работай в PowerShell. `winget install -e --id Python.Python.3.12` и `winget install -e --id Git.Git`. **Человек:** подтвердить окна установщика. После установки открыть новый терминал, иначе команды не найдутся. Активация окружения: `.venv\Scripts\activate`.
+- **Windows:** работай в PowerShell. `winget install -e --id Python.Python.3.12` и `winget install --id Git.Git -e --source winget` (без winget — установщик с https://git-scm.com/install/windows). **Человек:** подтвердить окна установщика. После установки открыть новый терминал, иначе команды не найдутся. Активация окружения: `.venv\Scripts\activate`. Приложение GitHub Desktop не нужно: это окно поверх git, командной строке оно ничего не даёт.
 - **Linux / WSL:** `sudo apt update && sudo apt install -y python3 python3-venv python3-pip git`. **Человек:** ввести пароль sudo.
 
 Дальше: `python3 -m venv .venv` (Windows: `py -m venv .venv`), активировать, `pip install -r automation/requirements.txt`. Проверка: `python automation/tg_export.py --help` печатает подсказку. Не печатает — читай ошибку и чини, человеку не отдавай.
+
+Набор без git: если git ещё не стоит, а начать нужно сейчас — скачай архив https://github.com/MainFrame100/project-place-kit/archive/refs/heads/main.zip, распакуй, работай в папке `project-place-kit-main`. Внутри всё то же, включая `.claude/skills/`. git понадобится только в шаге 6, тогда `git init` в этой папке.
 
 GitHub CLI (`gh`) понадобится только в шаге 6, там и ставится.
 
@@ -61,7 +63,7 @@ curl -L https://raw.githubusercontent.com/MainFrame100/quality-check-skill/main/
 
 Когда папка собрана — чтобы команда видела то же и нейронка у каждого читала одну папку.
 
-Делается по скиллу `github`. Порядок: `git remote remove origin` (клон смотрит на открытый набор автора — туда пушить нельзя) → `git config user.name` и `user.email`, пустые — спросить человека и выставить → проверка `python automation/publish_check.py` → исправить всё `✗` → коммит → `gh repo create <имя> --private --source=. --push`. Нет `gh` — поставить: macOS `brew install gh`, Windows `winget install -e --id GitHub.cli`, Linux/WSL `sudo apt install -y gh`. `gh auth status` не проходит — **Человек:** «сейчас откроется браузер, войди в GitHub»; `gh auth login --web`.
+Делается по скиллу `github`. Порядок: `git remote remove origin` (клон смотрит на открытый набор автора — туда пушить нельзя) → `git config user.name` и `user.email`, пустые — спросить человека и выставить → проверка `python automation/publish_check.py` → исправить всё `✗` → коммит → `gh repo create <имя> --private --source=. --push`. Нет `gh` — поставить: macOS `brew install gh`, Windows `winget install GitHub.cli` (или установщик с https://github.com/cli/cli/releases/latest), Linux/WSL `sudo apt install -y gh`. `gh auth status` не проходит — **Человек:** «сейчас откроется браузер, войди в GitHub»; `gh auth login --web`.
 
 Сразу после первой публикации — проверить, что репозиторий закрыт: `gh repo view --json isPrivate` должен дать `true`, и **человек** сам открывает страницу репозитория в браузере и видит метку Private. Открытый — закрыть: `gh repo edit --visibility private --accept-visibility-change-consequences`.
 
