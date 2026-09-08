@@ -100,7 +100,7 @@ def check_readmes() -> None:
 
 
 def check_remote_private() -> None:
-    """Данные проектов — только в закрытом репозитории. Открытый допустим, пока projects/ пуст."""
+    """Данные проектов — только в закрытом репозитории. Открытый допустим, пока в projects/ только _template и _example."""
     if not git("remote").strip():
         return
     r = subprocess.run(["gh", "repo", "view", "--json", "isPrivate,nameWithOwner"], cwd=ROOT,
@@ -111,7 +111,7 @@ def check_remote_private() -> None:
         return
     info = json.loads(r.stdout)
     projects = ROOT / "projects"
-    has_data = projects.exists() and any(p.is_dir() and p.name != "_template" for p in projects.iterdir())
+    has_data = projects.exists() and any(p.is_dir() and not p.name.startswith("_") for p in projects.iterdir())  # _template, _example — не данные
     if has_data and not info.get("isPrivate"):
         errors.append(f"репозиторий {info.get('nameWithOwner')} открытый, а в projects/ данные проектов. "
                       "Закрыть: gh repo edit --visibility private --accept-visibility-change-consequences")
