@@ -1,0 +1,8 @@
+# ключи и сессия Telegram — никогда не в репозиторий
+.env
+*.session
+*.session-journal
+# окружение
+.venv/
+__pycache__/
+.pytest_cache/
