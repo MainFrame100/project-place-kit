@@ -175,7 +175,8 @@ def check_changes() -> None:
         if "sources" in p.parts and status == "M" and has_head() and not _sources_change_allowed(path):
             errors.append(f"правка сырья: {path}. sources/ не правится — вернуть (git checkout -- <файл>), "
                           "новое положить новым файлом. Можно только: дописать выгрузкой, скрыть секрет redact.py")
-        if "journal" in p.parts and status == "M" and has_head():
+        if ("journal" in p.parts and status == "M" and has_head() and p.name != "README.md"
+                and not (p.parts[0] == "projects" and p.parts[1].startswith("_"))):  # README и учебные _example — не журналы
             old = git("show", f"HEAD:{path}")
             removed_in_old_entries = _removed_lines_outside_today(old, git("diff", "-U0", "HEAD", "--", path), today)
             if removed_in_old_entries:
